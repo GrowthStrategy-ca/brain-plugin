@@ -1,0 +1,57 @@
+# company-spec.yaml schema (v1)
+#
+# This file is both the schema and a commented example. Every key below is what
+# /brain:interview writes and what /brain:briefing reads. Values shown are the
+# recommended defaults the interview offers. Types in [brackets].
+#
+# Rules:
+#   - Unknown keys are ignored. Missing keys fall back to the defaults shown here.
+#   - A value the interviewer could not confirm carries a trailing "# assumed" comment.
+#   - fast_lane is recorded for planning only. v1 makes NO promise to act within the hour.
+#   - Nothing in this file is a secret. Do not put API keys, grant keys or passwords here.
+
+spec_version: 1                       # [int] always 1 for this schema
+updated: 2026-10-17                   # [date] set by the interview on every save
+
+company:
+  name: "Example Builders"            # [string] company name as it appears in JobTread
+  timezone: "America/Chicago"         # [IANA tz] used for "today", "yesterday" and quiet hours
+  owner: "Pat Owner"                  # [string] who the morning briefing is written for
+  approver: "Pat Owner"               # [string] who approves anything customer-facing
+  office_people: ["Sam Office"]       # [list of names] office / admin staff
+  field_people: ["Lee Lead"]          # [list of names] crew leads and field staff
+  agent_user: "Office"                # [string] dedicated JobTread user the agent acts as
+  office_job: "Office"                # [string] internal JobTread job where the briefing is posted
+
+leads:
+  sources: ["website form", "referrals", "phone"]   # [list] where leads come from
+  reply_within_hours: 24              # [int] how fast the company expects a first reply
+  qualified_means: "in service area, budget over $25k, decision within 90 days"  # [string]
+
+estimates:
+  estimator: "Pat Owner"              # [string] who builds estimates
+  proposal_expiry_days: 30            # [int] days a proposal stays valid
+  follow_up_days: [2, 7, 14]          # [list of int] days after sending to follow up
+  expiring_window_days: 7             # [int] briefing flags pending proposals due within this many days
+
+production:
+  daily_logs_expected: true           # [bool] crews post a daily log on every active job day
+  clock_in_required: true             # [bool] crews clock in to JobTread
+  scheduler: "Sam Office"             # [string] who owns the schedule
+  idle_job_days: 5                    # [int] open job with no log, comment or time entry for N days = idle
+
+money:
+  invoice_terms_days: 15              # [int] net terms on customer invoices
+  past_due_grace_days: 0              # [int] days after due date before the briefing calls it past due
+  receipts_path: "photo into JobTread vendor bill"   # [string] how field receipts reach the office
+
+communication:
+  may_leave_jobtread_without_human: [] # [list] message types the agent may send without approval (v1 default: none)
+  quiet_hours: { start: "20:00", end: "07:00" }      # [HH:MM local] no posts or notifications in this window
+  tone: "plain, short, friendly"      # [string] voice for anything the agent drafts
+  fast_lane: []                       # [list] "needs an answer within the hour" items. Recorded only; v1 does not promise these.
+
+briefing:
+  run_at: "07:07"                     # [HH:MM local] when the daily routine runs; after quiet_hours.end
+  pin_comment: true                   # [bool] pin the briefing comment on the office job
+  max_rows_per_section: 10            # [int] cap per section so the comment stays under JobTread's 4096-char limit

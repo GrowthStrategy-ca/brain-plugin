@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "brain-plugin",
+  "description": "Company Brain for JobTread contractors, by GrowthStrategy.",
+  "owner": { "name": "GrowthStrategy", "email": "jean@growthstrategy.ca" },
+  "plugins": [
+    {
+      "name": "brain",
+      "description": "Interview your company once, then get a daily owner briefing posted inside JobTread. Runs on your own Claude or Codex subscription.",
+      "version": "0.1.0",
+      "author": { "name": "GrowthStrategy" },
+      "category": "productivity",
+      "source": "./plugin"
+    }
+  ]
+}

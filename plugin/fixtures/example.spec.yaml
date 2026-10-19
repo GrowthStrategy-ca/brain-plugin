@@ -1,0 +1,48 @@
+# Example fixture: a fictional 6-person residential remodeler. Use it to try /brain:briefing
+# before running /brain:interview. Nothing here describes a real company.
+
+spec_version: 1
+updated: 2026-10-19
+
+company:
+  name: "Example Remodeling"
+  timezone: "America/Chicago"
+  owner: "Sam"
+  approver: "Sam"
+  office_people: ["Dana"]
+  field_people: ["Luis", "Priya", "Marcus"]
+  agent_user: "Office"
+  office_job: "Office"
+
+leads:
+  sources: ["referrals", "Google Business Profile", "Houzz"]
+  reply_within_hours: 2
+  qualified_means: "owner-occupied kitchen, bath or addition, budget $40K+, within 45 minutes"
+
+estimates:
+  estimator: "Sam"
+  proposal_expiry_days: 30
+  follow_up_days: [2, 7, 14]
+  expiring_window_days: 7
+
+production:
+  daily_logs_expected: true
+  clock_in_required: true
+  scheduler: "Dana"
+  idle_job_days: 5
+
+money:
+  invoice_terms_days: 15
+  past_due_grace_days: 3
+  receipts_path: "JobTread"
+
+communication:
+  may_leave_jobtread_without_human: ["appointment reminders"]
+  quiet_hours: { start: "20:00", end: "07:00" }
+  tone: "plain, short, friendly"
+  fast_lane: ["new lead from the website", "crew no-show"]
+
+briefing:
+  run_at: "07:07"
+  pin_comment: true
+  max_rows_per_section: 10
