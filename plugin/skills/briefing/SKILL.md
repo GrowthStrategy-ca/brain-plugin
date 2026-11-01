@@ -23,6 +23,27 @@ tools are deferred, search for "jobtread query" first.
 - Exactly one found: still compare the organization name from step 1 with `company.name`.
   If they differ, stop and say so: the wrong JobTread connector is attached.
 
+## 0b. Prefer the Brain service when it is connected
+
+If a tool server named `brain` is available (tools `whoami`, `get_spec`, `jt_query`,
+`post_to_jobtread`, `record_run`), it is the company's hosted Brain. Use it instead of the
+connector path:
+
+- `get_spec` replaces reading `company-spec.yaml` from disk. Fall back to the file only if it
+  returns `yaml: null`.
+- Every JobTread **read** in this skill goes through `jt_query` with the same query object
+  (never add a grantKey). Skip the connector search in step 0.
+- Every JobTread **write** (createAccount, createLocation, createJob, createComment,
+  updateComment) goes through `post_to_jobtread` with an `idempotency_key` of the form
+  `briefing:<action>:<target>:<TODAY>`, for example `briefing:createComment:office:2026-10-19`
+  or `briefing:updateComment:22PgUFvqTBLn:2026-10-19`. A result with `replayed: true` means it
+  already happened today; use it and do not retry. Office job setup keys: `office:createAccount`,
+  `office:createLocation`, `office:createJob` (no date; they happen once).
+- Finish with `record_run` (kind `briefing`, status `ok`, `held` or `error`, a one-paragraph
+  summary, and the session id if you know it).
+
+Without the `brain` server, continue with the connector path below.
+
 ## 1. Context
 
 1. Run `{"currentGrant": {"organization": {"id": {}, "name": {}}, "user": {"name": {}}}}`.

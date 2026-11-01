@@ -48,8 +48,18 @@ never sees or stores the Claude login.
 6. Prompt: `Run /brain:briefing.`
 7. Run it once by hand and check the pinned comment on the Office job in JobTread.
 
-## 4. License check (Day 2)
+## 4. Connect to the Brain service
 
-Stub. This plugin will log into **brain.growthstrategy.ca** (OAuth, remote MCP) to fetch the
-company spec, templates and approvals, and to record each run in a ledger. Not active yet:
-print "License check: not required in v0.1".
+The hosted service stores the company spec, holds the JobTread agent-user key, and ledgers
+every write so nothing posts twice. GrowthStrategy issues one API key per company.
+
+Claude Code:
+```
+claude mcp add --transport http brain https://brain-service-two.vercel.app/api/mcp --header "Authorization: Bearer <your key>"
+```
+Then run `/brain:briefing` once by hand; it should report `whoami` = your company and post
+through `post_to_jobtread`.
+
+Not yet: claude.ai routines and Codex connect with OAuth, not a bearer header, so scheduled
+runs keep using the JobTread connector path until the service has OAuth. No key: print
+"Brain service: not connected; running on the JobTread connector only."
